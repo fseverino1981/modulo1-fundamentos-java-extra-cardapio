@@ -2,27 +2,40 @@ package mx.florinda.cardapio;
 
 
 import java.math.BigDecimal;
+import java.util.List;
+import java.util.Optional;
 
 public class Main {
     public static void main(String[] args) {
-        Database database = new Database();
+        Database database = new SQLDatabase();
 
-        ItemCardapio item = database.itemCardapioPorId(1L).orElseThrow(); // 2.99
+//        int total = database.totalItensCardapio();
+//        System.out.println("Total de itens: " + total);
 
-        database.alteraPrecoItemCardapio(1L, new BigDecimal("3.99")); // 2.99 => 3.99
-        ItemCardapio item1 = database.itemCardapioPorId(1L).orElseThrow(); // 3.99
+//        var novoItemCardapio = new ItemCardapio(0L, "Tacos de Carnitas", "Tacos recheadas com carne tenra",
+//                ItemCardapio.CategoriaCardapio.PRATOS_PRINCIPAIS, new BigDecimal("25.9"), null);
+//        database.adicionaItemCardapio(novoItemCardapio);
+//        System.out.println("Item adicionado com sucesso!");
 
-        database.alteraPrecoItemCardapio(1L, new BigDecimal("2.99")); // 3.99 => 2.99
-        ItemCardapio item2 = database.itemCardapioPorId(1L).orElseThrow(); // 2.99
+//        List<ItemCardapio> listaItensCardapio = database.listaItensCardapio();
+//        listaItensCardapio.forEach(System.out::println);
 
-        database.alteraPrecoItemCardapio(1L, new BigDecimal("4.99")); // 2.99 => 4.99
-        ItemCardapio item3 = database.itemCardapioPorId(1L).orElseThrow(); // 4.99
 
-        System.out.println("== " + (item == item2));
-        System.out.println("equals() " + (item.equals(item2)));
-        System.out.println("hashCode() " + (item.hashCode() == item2.hashCode()));
+        System.out.println(
+                database.alteraPrecoItemCardapio(5L, BigDecimal.valueOf(9.99))
+                    ? "Atualizado com sucesso"
+                    : "Registro não atualizado");
 
-        database.rastroAuditoriaPrecos();
+        Optional<ItemCardapio> itemCardapio = database.itemCardapioPorId(5L);
+        System.out.println(itemCardapio.toString());
+
+//        System.out.println(
+//                database.removeItemCardapio(10L)
+//                        ? "Removido com sucesso"
+//                        : "Registro não encontrado"
+//        );
+
+
     }
 
 }
